@@ -13,6 +13,24 @@ function Gameboard() {
 
     //Retrieve the current gameboard
     const getBoard = () => board;
+
+    /*
+    The player will choose where to put the token, if a cell is already taken it will indicate to take another one 
+    */
+    const selectPosition = (column, row, player) => {
+
+        if (board[column][row] === "-") {
+            board[column][row].addToken(player);
+        } else {
+            return; // Exit the function if the condition is false
+        }
+    }
+
+    /*
+    Print the board in the console
+    */
+
+    return { getBoard, selectPosition };
 }
 
 
@@ -23,7 +41,7 @@ A cell represents one square of the board
  " 0 ": Player´s 2 token
 */
 function Cell() {
-    let value = 0;
+    let value = "-";
     //Get player token to change the value of the cell
     const addToken = (player) => {
         value = player;
@@ -34,3 +52,5 @@ function Cell() {
 
     return { addToken, getValue };
 }
+
+console.table(Gameboard.getBoard);
