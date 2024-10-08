@@ -46,3 +46,21 @@ A cell represents one square of the board
  " 0 ": Player´s 2 token
 */
 
+function GameController(playerOneName = "Player One", playerTwoName = "Player Two") {
+    const board = Gameboard();
+
+
+    const players = [{
+        name: playerOneName,
+        token: "X"
+    },
+    {
+        name: playerTwoName,
+        token: "O"
+    }];
+
+
+    let activePlayer = players[0];
+
+    const getActivePlayer = () => activePlayer;
+}
