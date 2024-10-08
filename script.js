@@ -63,4 +63,6 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
     let activePlayer = players[0];
 
     const getActivePlayer = () => activePlayer;
+
+    return { getActivePlayer };
 }
