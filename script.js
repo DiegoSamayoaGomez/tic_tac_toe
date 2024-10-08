@@ -7,7 +7,7 @@ function Gameboard() {
     for (let i = 0; i < rows; i++) {
         board[i] = [];
         for (let j = 0; j < columns; j++) {
-            board[i].push(Cell());
+            board[i][j] = "-"
         }
     }
 
@@ -29,8 +29,11 @@ function Gameboard() {
     /*
     Print the board in the console
     */
-
-    return { getBoard, selectPosition };
+    const printBoard = () => {
+        const boardWithCellValues = board.map((row) => row.map((cell) => cell.getValue()))
+        console.log(boardWithCellValues);
+    }
+    return { getBoard, selectPosition, printBoard };
 }
 
 
@@ -52,5 +55,3 @@ function Cell() {
 
     return { addToken, getValue };
 }
-
-console.table(Gameboard.getBoard);
