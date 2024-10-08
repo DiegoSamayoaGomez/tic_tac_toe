@@ -45,15 +45,4 @@ A cell represents one square of the board
  " X ": Player´s 1 token
  " 0 ": Player´s 2 token
 */
-function Cell() {
-    let value = "-";
-    //Get player token to change the value of the cell
-    const addToken = (player) => {
-        value = player;
-    }
 
-    // Retrieve the current value of a cell
-    const getValue = () => value;
-
-    return { addToken, getValue };
-}
