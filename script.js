@@ -22,9 +22,9 @@ function Gameboard() {
             board[row][column] = playerToken;
         }
         else {
-            return; 
+            return;
             // Exit the function if the condition is false
-        
+
         }
     }
 
@@ -33,10 +33,9 @@ function Gameboard() {
     Print the board in the console
     */
     const printBoard = () => {
-        const boardWithCellValues = board.map((row) => row.map((cell) => cell.getValue()))
-        console.log(boardWithCellValues);
+        console.table(board);
     }
-    return { getBoard, selectPosition, printBoard };
+    return { getBoard, checkGrid, printBoard };
 }
 
 
