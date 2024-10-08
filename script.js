@@ -64,5 +64,36 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
 
     const getActivePlayer = () => activePlayer;
 
-    return { getActivePlayer };
+    const switchPlayerTurn = () => {
+        activePlayer = activePlayer === players[0] ? players[1] : players[0];
+    };
+
+
+    const newTurn = () => {
+        board.printBoard();
+        console.log(`${getActivePlayer().name}'s turn.`);
+        playRound();
+    };
+
+    const playRound = () => {
+
+        columns = prompt("COLUMNS: ");
+        rows = prompt("ROWS: ");
+        console.log(
+            `Dropping ${getActivePlayer().name}'s token into column ${columns}...`
+        );
+        //SEND POSITION OF THE USER AND ITS TOKEN
+        board.checkGrid(rows, columns, getActivePlayer().token);
+
+        //CHECK if someone has won (Not created yet)
+        //USE GET BOARD
+
+        switchPlayerTurn();
+        newTurn();
+    };
+
+    // Initial play game message
+    newTurn();
+
+    return { getActivePlayer, playRound };
 }
