@@ -17,14 +17,17 @@ function Gameboard() {
     /*
     The player will choose where to put the token, if a cell is already taken it will indicate to take another one 
     */
-    const selectPosition = (column, row, player) => {
-
-        if (board[column][row] === "-") {
-            board[column][row].addToken(player);
-        } else {
-            return; // Exit the function if the condition is false
+    const checkGrid = (row, column, playerToken) => {
+        if (board[row][column] === "-") {
+            board[row][column] = playerToken;
+        }
+        else {
+            return; 
+            // Exit the function if the condition is false
+        
         }
     }
+
 
     /*
     Print the board in the console
