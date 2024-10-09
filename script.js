@@ -87,6 +87,14 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
 
         //CHECK if someone has won (Not created yet)
         boardInfo = board.getBoard();
+
+        //Convert the 2d array into a single line array and then check if there´s no more empty squares, if so
+        //It will be a tie and close the game
+        checkTie = (boardInfo) => {
+            return [].concat.apply([], ([].concat.apply([], boardInfo))).indexOf("-") !== -1;
+        };
+
+
         if (
             ((boardInfo[0][0] === getActivePlayer().token) && (boardInfo[0][1] === getActivePlayer().token) && (boardInfo[0][2] === getActivePlayer().token)) || // FIRST ROW WINNER 
             ((boardInfo[1][0] === getActivePlayer().token) && (boardInfo[1][1] === getActivePlayer().token) && (boardInfo[1][2] === getActivePlayer().token)) || // SECOND ROW WINNER 
@@ -96,14 +104,15 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
             ((boardInfo[0][1] === getActivePlayer().token) && (boardInfo[1][1] === getActivePlayer().token) && (boardInfo[2][1] === getActivePlayer().token)) || // SECOND COLUMN WINNER
             ((boardInfo[0][2] === getActivePlayer().token) && (boardInfo[1][2] === getActivePlayer().token) && (boardInfo[2][2] === getActivePlayer().token)) || // THID COLUMN WINNER
 
-            ((boardInfo[0][0] === getActivePlayer().token) && (boardInfo[1][1] === getActivePlayer().token) && (boardInfo[2][2] === getActivePlayer().token)) || // SECOND COLUMN WINNER
-            ((boardInfo[2][0] === getActivePlayer().token) && (boardInfo[1][1] === getActivePlayer().token) && (boardInfo[0][2] === getActivePlayer().token))    // THID COLUMN WINNER
+            ((boardInfo[0][0] === getActivePlayer().token) && (boardInfo[1][1] === getActivePlayer().token) && (boardInfo[2][2] === getActivePlayer().token)) || // Diagonal from left to right winner
+            ((boardInfo[2][0] === getActivePlayer().token) && (boardInfo[1][1] === getActivePlayer().token) && (boardInfo[0][2] === getActivePlayer().token))    // Diagonal from right to left winner
         ) {
             console.log(`${getActivePlayer().name} Won`);
             return;
         }
 
-        else if (!boardInfo.includes("-")) {
+        else if (checkTie(boardInfo) === false) {
+
             console.log("It's a tie");
             return;
         }
