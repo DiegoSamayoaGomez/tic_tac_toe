@@ -86,7 +86,27 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
         board.checkGrid(rows, columns, getActivePlayer().token);
 
         //CHECK if someone has won (Not created yet)
-        //USE GET BOARD
+        boardInfo = board.getBoard();
+        if (
+            ((boardInfo[0][0] === getActivePlayer().token) && (boardInfo[0][1] === getActivePlayer().token) && (boardInfo[0][2] === getActivePlayer().token)) || // FIRST ROW WINNER 
+            ((boardInfo[1][0] === getActivePlayer().token) && (boardInfo[1][1] === getActivePlayer().token) && (boardInfo[1][2] === getActivePlayer().token)) || // SECOND ROW WINNER 
+            ((boardInfo[2][0] === getActivePlayer().token) && (boardInfo[2][1] === getActivePlayer().token) && (boardInfo[2][2] === getActivePlayer().token)) || // THIRD ROW WINNER
+
+            ((boardInfo[0][0] === getActivePlayer().token) && (boardInfo[1][0] === getActivePlayer().token) && (boardInfo[2][0] === getActivePlayer().token)) || // FIRST COLUMN WINNER
+            ((boardInfo[0][1] === getActivePlayer().token) && (boardInfo[1][1] === getActivePlayer().token) && (boardInfo[2][1] === getActivePlayer().token)) || // SECOND COLUMN WINNER
+            ((boardInfo[0][2] === getActivePlayer().token) && (boardInfo[1][2] === getActivePlayer().token) && (boardInfo[2][2] === getActivePlayer().token)) || // THID COLUMN WINNER
+
+            ((boardInfo[0][0] === getActivePlayer().token) && (boardInfo[1][1] === getActivePlayer().token) && (boardInfo[2][2] === getActivePlayer().token)) || // SECOND COLUMN WINNER
+            ((boardInfo[2][0] === getActivePlayer().token) && (boardInfo[1][1] === getActivePlayer().token) && (boardInfo[0][2] === getActivePlayer().token))    // THID COLUMN WINNER
+        ) {
+            console.log(`${getActivePlayer().name} Won`);
+            return;
+        }
+
+        else if (!boardInfo.includes("-")) {
+            console.log("It's a tie");
+            return;
+        }
 
         switchPlayerTurn();
         newTurn();
@@ -97,3 +117,6 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
 
     return { getActivePlayer, playRound };
 }
+
+// Create an instance of GameController
+const gameControllerInstance = GameController();
