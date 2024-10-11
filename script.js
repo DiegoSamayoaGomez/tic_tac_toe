@@ -72,7 +72,7 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
     const newTurn = () => {
         board.printBoard();
         console.log(`${getActivePlayer().name}'s turn.`);
-        playRound();
+        //playRound();
     };
 
     const playRound = () => {
@@ -107,14 +107,11 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
             ((boardInfo[0][0] === getActivePlayer().token) && (boardInfo[1][1] === getActivePlayer().token) && (boardInfo[2][2] === getActivePlayer().token)) || // Diagonal from left to right winner
             ((boardInfo[2][0] === getActivePlayer().token) && (boardInfo[1][1] === getActivePlayer().token) && (boardInfo[0][2] === getActivePlayer().token))    // Diagonal from right to left winner
         ) {
-            console.log(`${getActivePlayer().name} Won`);
-            return;
+            return console.log(`${getActivePlayer().name} Won`);
         }
-
         else if (checkTie(boardInfo) === false) {
 
-            console.log("It's a tie");
-            return;
+            return console.log("It's a tie");
         }
 
         switchPlayerTurn();
@@ -124,8 +121,36 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
     // Initial play game message
     newTurn();
 
-    return { getActivePlayer, playRound };
+    return { getActivePlayer, playRound, getBoard: board.getBoard };
 }
 
-// Create an instance of GameController
-const gameControllerInstance = GameController();
+
+
+function displayController() {
+    const turnPlayer = document.querySelector(".turnPlayer");
+    const board = document.querySelector(".board");
+    const resetBtn = document.querySelector(".resetBtn")
+
+    // Create an instance of GameController
+    const gameControllerInstance = GameController();
+
+    const getBoard = gameControllerInstance.getBoard();
+    let count = 0;
+    getBoard.forEach(row => {
+        row.forEach(square => {
+            count++;
+            let gridBtn = document.createElement("button");
+            gridBtn.id = count;
+            gridBtn.classList = "grid";
+            gridBtn.textContent = square;
+            board.appendChild(gridBtn);
+        });
+    });
+
+
+
+
+
+}
+
+displayController();
