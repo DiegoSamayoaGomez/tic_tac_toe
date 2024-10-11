@@ -11,6 +11,7 @@ function Gameboard() {
         }
     }
 
+
     //Retrieve the current gameboard
     const getBoard = () => board;
 
@@ -69,16 +70,11 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
     };
 
 
-    const newTurn = () => {
-        board.printBoard();
-        console.log(`${getActivePlayer().name}'s turn.`);
-        //playRound();
-    };
 
-    const playRound = () => {
+    const playRound = (rows, columns) => {
 
-        columns = prompt("COLUMNS: ");
-        rows = prompt("ROWS: ");
+        //columns = prompt("COLUMNS: ");
+        //rows = prompt("ROWS: ");
         console.log(
             `Dropping ${getActivePlayer().name}'s token into column ${columns}...`
         );
@@ -107,48 +103,119 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
             ((boardInfo[0][0] === getActivePlayer().token) && (boardInfo[1][1] === getActivePlayer().token) && (boardInfo[2][2] === getActivePlayer().token)) || // Diagonal from left to right winner
             ((boardInfo[2][0] === getActivePlayer().token) && (boardInfo[1][1] === getActivePlayer().token) && (boardInfo[0][2] === getActivePlayer().token))    // Diagonal from right to left winner
         ) {
-            return console.log(`${getActivePlayer().name} Won`);
+            console.log(`${getActivePlayer().name} Won`);
+            return `${getActivePlayer().name} Won`;
         }
         else if (checkTie(boardInfo) === false) {
 
-            return console.log("It's a tie");
+            return "It's a tie";
         }
 
         switchPlayerTurn();
-        newTurn();
+
     };
 
-    // Initial play game message
-    newTurn();
-
-    return { getActivePlayer, playRound, getBoard: board.getBoard };
+    return { getActivePlayer, playRound, getBoard: board.getBoard, resetGame: board.resetGame };
 }
 
-
-
 function displayController() {
+    const winnerDiv = document.querySelector(".winnerDiv");
+    const announceWiiner = document.createElement("h1");
+
+    const turn = document.querySelector(".turn");
     const turnPlayer = document.querySelector(".turnPlayer");
     const board = document.querySelector(".board");
+
     const resetBtn = document.querySelector(".resetBtn")
 
     // Create an instance of GameController
     const gameControllerInstance = GameController();
+    let gameOver = false;
 
-    const getBoard = gameControllerInstance.getBoard();
-    let count = 0;
-    getBoard.forEach(row => {
-        row.forEach(square => {
-            count++;
-            let gridBtn = document.createElement("button");
-            gridBtn.id = count;
-            gridBtn.classList = "grid";
-            gridBtn.textContent = square;
-            board.appendChild(gridBtn);
+    const updateScreen = () => {
+        let gameOver = false;
+        //Clear the board 
+        board.textContent = "";
+
+        //Get the newest board
+        const getBoard = gameControllerInstance.getBoard();
+
+        //Print the current player
+        const activePlayer = gameControllerInstance.getActivePlayer();
+
+        //Display player´s turn
+        turnPlayer.textContent = `It´s ${activePlayer.name}´s turn "${activePlayer.token}"`;
+        turn.appendChild(turnPlayer);
+
+        //Populate the grid with the array board information
+        let count = 0;
+        getBoard.forEach((row, rowIndex) => {
+            row.forEach((cell, columnIndex) => {
+                //console.log(rowIndex, columnIndex);
+                //Use the counter to assign an ID to each button
+                count++;
+
+                //Create a button and assign it an ID
+                let gridBtn = document.createElement("button");
+                gridBtn.id = count;
+
+                //Add a class to each button
+                gridBtn.classList = "grid";
+                gridBtn.textContent = cell;
+
+                // Create a data attribute to identify the row and column
+                gridBtn.dataset.row = rowIndex;
+                gridBtn.dataset.column = columnIndex;
+
+                if (cell !== "-") {
+                    gridBtn.disabled = true;
+
+                    // Change the color based on the cell content
+                    if (cell === "X") {
+                        gridBtn.style.backgroundColor = "black";
+                        gridBtn.style.color = "white";
+                    } else if (cell === "O") {
+                        gridBtn.style.backgroundColor = "white";
+                        gridBtn.style.color = "black";
+                    }
+                }
+
+
+
+                board.appendChild(gridBtn);
+            });
+
         });
+
+    }
+
+u
+    //Handle each user click
+    board.addEventListener("click", (e) => {
+        if (gameOver == true) return;
+
+        //Get row and column and send it to play a round
+        const selectedRow = e.target.dataset.row;
+        const selectedColumn = e.target.dataset.column;
+        const selectID = e.target.id;
+
+
+        if (!selectedColumn || !selectedRow) return;
+        const winner = gameControllerInstance.playRound(selectedRow, selectedColumn);
+
+
+        if (winner !== undefined) {
+            announceWiiner.textContent = winner;
+            winnerDiv.appendChild(announceWiiner);
+            gameOver = true;
+
+        }
+
+        updateScreen();
+
     });
 
-
-
+    updateScreen();
 
 
 }
