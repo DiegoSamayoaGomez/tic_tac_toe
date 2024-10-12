@@ -12,6 +12,20 @@ function Gameboard() {
     }
 
 
+    function resetGame() {
+        const board = [];
+
+        /*Create 2D array that will represent the state of the game board*/
+        for (let i = 0; i < rows; i++) {
+            board[i] = [];
+            for (let j = 0; j < columns; j++) {
+                board[i][j] = "-"
+            }
+        }
+
+        console.log("RESET")
+    }
+
     //Retrieve the current gameboard
     const getBoard = () => board;
 
@@ -36,7 +50,7 @@ function Gameboard() {
     const printBoard = () => {
         console.table(board);
     }
-    return { getBoard, checkGrid, printBoard };
+    return { getBoard, checkGrid, printBoard, resetGame };
 }
 
 
@@ -180,8 +194,6 @@ function displayController() {
                     }
                 }
 
-
-
                 board.appendChild(gridBtn);
             });
 
@@ -189,9 +201,10 @@ function displayController() {
 
     }
 
-u
+
     //Handle each user click
     board.addEventListener("click", (e) => {
+        //Block the whole board if a winner is declared or if there´s a tie
         if (gameOver == true) return;
 
         //Get row and column and send it to play a round
@@ -199,19 +212,27 @@ u
         const selectedColumn = e.target.dataset.column;
         const selectID = e.target.id;
 
-
         if (!selectedColumn || !selectedRow) return;
         const winner = gameControllerInstance.playRound(selectedRow, selectedColumn);
 
-
+        //Check if there´s a winner, if so, then display the winner and block the whole board
         if (winner !== undefined) {
             announceWiiner.textContent = winner;
             winnerDiv.appendChild(announceWiiner);
             gameOver = true;
 
         }
-
+        //Initial run
         updateScreen();
+
+    });
+
+
+    //Reset the array
+    resetBtn.addEventListener("click", () => {
+        gameControllerInstance.resetGame();
+        winnerDiv.removeChild(announceWiiner);
+        displayController();
 
     });
 
@@ -219,5 +240,5 @@ u
 
 
 }
-
+//Main function
 displayController();
