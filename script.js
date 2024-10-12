@@ -118,7 +118,7 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
             ((boardInfo[2][0] === getActivePlayer().token) && (boardInfo[1][1] === getActivePlayer().token) && (boardInfo[0][2] === getActivePlayer().token))    // Diagonal from right to left winner
         ) {
             console.log(`${getActivePlayer().name} Won`);
-            return `${getActivePlayer().name} Won`;
+            return `${getActivePlayer().name} Won!`;
         }
         else if (checkTie(boardInfo) === false) {
 
@@ -135,6 +135,7 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
 function displayController() {
     const winnerDiv = document.querySelector(".winnerDiv");
     const announceWiiner = document.createElement("h1");
+    announceWiiner.classList = "announceWinner";
 
     const turn = document.querySelector(".turn");
     const turnPlayer = document.querySelector(".turnPlayer");
