@@ -134,8 +134,8 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
 
 function displayController() {
     const winnerDiv = document.querySelector(".winnerDiv");
-    const announceWiiner = document.createElement("h1");
-    announceWiiner.classList = "announceWinner";
+    const announceWinner = document.createElement("h1");
+    announceWinner.classList = "announceWinner";
 
     const turn = document.querySelector(".turn");
     const turnPlayer = document.querySelector(".turnPlayer");
@@ -218,8 +218,8 @@ function displayController() {
 
         //Check if there´s a winner, if so, then display the winner and block the whole board
         if (winner !== undefined) {
-            announceWiiner.textContent = winner;
-            winnerDiv.appendChild(announceWiiner);
+            announceWinner.textContent = winner;
+            winnerDiv.appendChild(announceWinner);
             gameOver = true;
 
         }
@@ -232,7 +232,7 @@ function displayController() {
     //Reset the array
     resetBtn.addEventListener("click", () => {
         gameControllerInstance.resetGame();
-        winnerDiv.removeChild(announceWiiner);
+        winnerDiv.removeChild(announceWinner);
         displayController();
 
     });
